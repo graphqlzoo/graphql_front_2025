@@ -1,0 +1,35 @@
+.billets-container {
+  max-width: 600px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* space between cards */
+  padding: 0 10px;
+}
+
+.billet-card {
+  background-color: #f9fdf7; /* light greenish */
+  border: 1px solid #c6d9bf; /* soft border */
+  border-radius: 10px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 6px rgba(46, 125, 50, 0.12);
+  transition: box-shadow 0.3s ease;
+}
+
+.billet-card:hover {
+  box-shadow: 0 4px 14px rgba(46, 125, 50, 0.25);
+  cursor: pointer;
+}
+
+.billet-title {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #2e7d32;
+  margin-bottom: 8px;
+}
+
+.billet-info {
+  font-size: 1rem;
+  color: #4a6a36;
+  margin: 4px 0;
+}

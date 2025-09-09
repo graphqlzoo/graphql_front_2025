@@ -1,0 +1,49 @@
+.espace-card {
+  background-color: #f9fafb;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 16px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  max-width: 500px;
+  transition: box-shadow 0.3s ease;
+}
+
+.espace-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.espace-title {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  color: #1a202c;
+}
+
+.espace-description {
+  margin-bottom: 12px;
+  color: #4a5568;
+}
+
+.espace-hours,
+.espace-types {
+  margin-bottom: 8px;
+  color: #2d3748;
+}
+
+.espace-types span {
+  font-weight: 500;
+  color: #2b6cb0;
+}
+
+.espace-card:hover {
+  background-color: #e0e0e0; /* slightly darker grey */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.espace-disabled {
+  background-color: #f8d7da; /* light red */
+  cursor: not-allowed;
+  opacity: 0.8;
+}

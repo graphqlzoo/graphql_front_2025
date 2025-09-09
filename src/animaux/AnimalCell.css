@@ -1,0 +1,53 @@
+.animal-cell {
+  background-color: #d0e7d2; /* slightly deeper green */
+  padding: 15px;
+  margin: 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(34, 139, 34, 0.2); /* forest green shadow */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  border: 1px solid #a5d6a7; /* soft border for depth */
+}
+
+.animal-cell:hover {
+  background-color: #b2dfdb; /* more contrast on hover */
+  box-shadow: 0 6px 18px rgba(0, 100, 0, 0.35);
+  transform: translateY(-3px);
+}
+
+.animal-thumbnail {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-right: 16px;
+  border: 2px solid #388e3c;
+  background-color: #f1f8e9;
+  flex-shrink: 0;
+}
+
+.animal-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #1b5e20;
+}
+
+.animal-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #0d3c14; /* darker green-black for readability */
+}
+
+.animal-description {
+  font-size: 1rem;
+  color: #3e2723; /* richer brown for contrast */
+}
+
+.animal-date {
+  font-size: 0.9rem;
+  color: #5d4037; /* warmer brown */
+  font-style: italic;
+}

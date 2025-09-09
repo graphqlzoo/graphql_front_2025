@@ -1,0 +1,53 @@
+/* Full screen jungle-themed container */
+.buy-container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #e0f2f1, #a5d6a7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* Jungle-style pass card */
+.pass-card {
+  background-color: #ffffffcc;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(34, 139, 34, 0.2);
+  padding: 40px 30px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+/* Title styling */
+.pass-title {
+  color: #2e7d32;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/* Info text */
+.pass-price,
+.pass-period {
+  font-size: 1.2rem;
+  color: #3e3e3e;
+  margin: 12px 0;
+}
+
+/* Jungle-green "Acheter" button */
+.buy-button {
+  margin-top: 30px;
+  background-color: #388e3c;
+  color: white;
+  font-weight: bold;
+  padding: 16px 30px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.buy-button:hover {
+  background-color: #2e7d32;
+}

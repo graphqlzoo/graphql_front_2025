@@ -1,0 +1,15 @@
+.zoo-card {
+  background-color: #f0f0f0; /* light grey */
+  padding: 15px;
+  margin: 10px;          /* margin on all sides */
+  border-radius: 12px;   /* rounded corners */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  cursor: pointer; 
+}
+
+
+.zoo-card:hover {
+  background-color: #e0e0e0; /* slightly darker grey */
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  transform: translateY(-4px);
+}

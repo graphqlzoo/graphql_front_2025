@@ -1,0 +1,38 @@
+.passes-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 30px;
+}
+
+.passes-title {
+  text-align: center;
+  color: #2e7d32;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.pass-card {
+  background-color: #f0f8f2;
+  padding: 20px 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(46, 125, 50, 0.15);
+  width: 100%;
+  max-width: 400px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.pass-card:hover {
+  background-color: #e0f2e9;
+  box-shadow: 0 6px 16px rgba(46, 125, 50, 0.25);
+  transform: translateY(-3px);
+}
+
+.empty-message {
+  text-align: center;
+  font-style: italic;
+  color: #777;
+}

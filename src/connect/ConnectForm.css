@@ -1,0 +1,79 @@
+/* Container styling */
+form {
+  max-width: 400px; /* increased from 320px */
+  margin: 40px auto;
+  padding: 30px 25px;
+  background-color: #f0f8f2; /* soft jungle green */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box; /* ensure padding works inside width */
+}
+
+/* Title */
+.title {
+  text-align: center;
+  color: #2e7d32;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-bottom: 10px;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+/* Input fields */
+input[type="text"],
+input[type="password"],
+input[type="submit"] {
+  width: 100%;              /* full width for all */
+  box-sizing: border-box;   /* include padding and border inside width */
+  font-family: inherit;
+  font-size: 1rem;
+  border-radius: 8px;
+  padding: 12px 15px;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Text inputs */
+input[type="text"],
+input[type="password"] {
+  border: 2px solid #4caf50;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: #1b5e20;
+  outline: none;
+  background-color: #e6f4ea;
+}
+
+/* Submit button */
+input[type="submit"] {
+  background-color: #4caf50;
+  color: white;
+  font-weight: 600;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #357a38;
+}
+
+/* Link styling */
+div > a {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #388e3c;
+  font-weight: 600;
+  text-decoration: none;
+  font-family: inherit;
+  transition: color 0.3s ease;
+}
+
+div > a:hover {
+  color: #1b5e20;
+}
