@@ -1,5 +1,5 @@
 export interface Species {
-  _id: string;
+  id: string;
   name: string;
   description: string;
   images: string[]; // assuming image URLs or base64 strings

@@ -1,7 +1,7 @@
 import { Species } from './species';
+
 export interface Animal {
-  _id: string;
-  zoo: string;
+  id: string;
   space: string;
   name: string;
   description: string;
