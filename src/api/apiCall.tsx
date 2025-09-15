@@ -1,10 +1,11 @@
 import TokenStore from './tokenStore';
+import { request, gql } from "graphql-request";
 
-export async function apiCall(route : string, verb: string,body : any):Promise<Response | null> {
+export async function apiCall(body : any):Promise<Response | null> {
    const options: RequestInit = {
-    method: verb,
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/graphql',
       'authorization': `Bearer ${TokenStore.getToken()}`,
     },
   };
@@ -12,11 +13,20 @@ export async function apiCall(route : string, verb: string,body : any):Promise<R
   if (body !== undefined && body !== null) {
     options.body = JSON.stringify(body);
   }
+  console.log(options);
   try {
-    const response = await fetch("http://localhost:8080/" + route, options);
+    const response = await fetch("http://localhost:4000/graphql", options);
     return response;
   } catch (error) {
     console.error("Network error in apiCall:", error);
     return null;
   }
+}
+
+export async function fetchGraphQL<T = any>(
+  query: string,
+  variables?: Record<string, any>
+): Promise<T> {
+  const endpoint = "http://localhost:4000/graphql"; // or your endpoint
+  return request<T>(endpoint, query, variables);
 }

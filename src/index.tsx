@@ -8,7 +8,6 @@ import RegisterForm from './register/RegisterForm';
 import ZooExplore from './espaces/Espaces';
 import Passes from './passes/Passes';
 import Animaux from './animaux/Animaux';
-import Zoos from './zoos/Zoos';
 import AnimalDetail from './animalDetail/animalDetail';
 import Buy from './buy/Buy';
 import Billets from './billets/Billets';
@@ -29,7 +28,6 @@ root.render(
         <Route path="/billets" element={<Billets/>}/>
         <Route path="/animaux" element={<Animaux/>}/>
         <Route path="/animal/:id" element={<AnimalDetail/>}/>
-        <Route path="/zoos" element={<Zoos/>}/>
         <Route path='*' element={<Navigate to='/espaces'/>}/>
       </Routes>
     </BrowserRouter>

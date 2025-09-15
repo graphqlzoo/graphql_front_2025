@@ -25,7 +25,7 @@ function Animaux({showNavbar = true,apiEndpoint = `zoo/${storeZooId.getZooId()}/
   }
   useEffect(() => {
         const fetchAnimals = async () => {
-          const response = await apiCall(endpoint,'GET',null)
+          const response = await apiCall(endpoint)
           const animalsApi = await response?.json()
           if(animalsApi != null){
             const animalsTransform = animalsApi as Animal[];

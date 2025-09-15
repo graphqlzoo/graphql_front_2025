@@ -3,26 +3,26 @@ import './Passes.css';
 import Navbar from '../components/Navbar/Navbar';
 import { apiCall } from '../api/apiCall';
 import storeZooId from '../api/storeZooId';
-import { Pass } from '../models/pass';
 import { useNavigate } from 'react-router-dom';
+import { Billet } from '../models/billet';
 
 function Passes() {
   const navigate = useNavigate();
-  const [passes, setPasses] = useState<Pass[]>([]);
+  const [passes, setPasses] = useState<Billet[]>([]);
 
   useEffect(() => {
     async function fetchData() {
-      const res = await apiCall(`zoo/${storeZooId.getZooId()}/pass`, 'GET', null);
+      const res = await apiCall(null);
       if (res?.ok) {
         const data = await res.json();
-        setPasses(data as Pass[]);
+        setPasses(data as Billet[]);
       }
     }
 
     fetchData();
   }, []);
 
-  const handlePassClick = (pass: Pass) => {
+  const handlePassClick = (pass: Billet) => {
     navigate(`/buy/${pass._id}`,{state: { pass } });
   };
 
@@ -41,9 +41,9 @@ function Passes() {
               className="pass-card"
               onClick={() => handlePassClick(pass)}
             >
-              <h3>{pass.name}</h3>
+              <h3>{pass.nameOfBillet}</h3>
               <p>💰 <strong>{pass.price} €</strong></p>
-              <p>📅 Periodicity: <em>{pass.periodicity}</em></p>
+              <p>📅 End of validity: <em>{pass.endOfValidityDate}</em></p>
             </div>
           ))
         )}

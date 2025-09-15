@@ -3,13 +3,29 @@ import { Link, useNavigate } from 'react-router-dom';
 import './ConnectForm.css';
 import { toast } from 'react-toastify';
 import generateToastContainer from '../utils/ToastContainer';
-import { apiCall } from '../api/apiCall';
+import { fetchGraphQL } from '../api/apiCall';
 import TokenStore from '../api/tokenStore';
+import { useQuery } from "@tanstack/react-query";
+import { gql } from "graphql-request";
+
+
+const connectionRequest = gql `
+  query {
+      connection(input: { login: $login, password: $password }) {
+        token
+        error
+      }
+  }`
 
 function ConnectForm(){
   const navigate = useNavigate();
-  const  [login, setLogin] = useState<string>('customer');
-  const  [password, setPassword] = useState<string>('customer');
+  const  [login, setLogin] = useState<string>('johndoe');
+  const  [password, setPassword] = useState<string>('password123');
+  const call = () => useQuery({ //replace with refetch event probably
+    queryKey: ["fetchFilms"],
+    queryFn: () => fetchGraphQL(connectionRequest, { login: login, password: password }),
+  });
+  
 
   const handleInputChange = (state : React.Dispatch<React.SetStateAction<string>>) => {
     return (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,15 +39,11 @@ function ConnectForm(){
       toast.error("Please fill in both fields.");
     }
     else{
-      const response = await apiCall('auth/login',"POST",{
-        login: login,
-        password,
-      })
-
-      if (response?.ok) {
-        const data = await response.json();
-        TokenStore.setToken(data.session);
-        navigate('/zoos');
+      const {data,isLoading,isError} = call();
+      console.log(data);
+      if (data.connection.token !== null) {
+        TokenStore.setToken(data.connection.token);
+        navigate("/animaux");
       } else {
         toast.error("Failed to connect,try again");
       } 
