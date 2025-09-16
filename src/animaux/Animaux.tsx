@@ -1,41 +1,35 @@
-import { useEffect, useState } from 'react'
 import './Animaux.css'
 import { Animal } from '../models/animal'
 import Navbar from '../components/Navbar/Navbar';
-import { apiCall } from '../api/apiCall';
-import storeZooId from '../api/storeZooId';
+import { fetchGraphQL } from '../api/apiCall';
 import AnimalCell from './AnimalCell';
 import { useNavigate, useParams } from 'react-router-dom';
+import { gql } from 'graphql-request';
+import { useQuery } from '@tanstack/react-query';
 
 interface AnimauxProps {
   showNavbar?: boolean;
-  apiEndpoint?: string;
 }
 
-function Animaux({showNavbar = true,apiEndpoint = `zoo/${storeZooId.getZooId()}/animal`}: AnimauxProps) {
-  const navigate = useNavigate();
-  const [animaux,setAnimaux] = useState<Animal[]>([])
-  const [isLoading,setIsLoading] = useState<boolean>(true)
+const animalFromSpace = gql`
+`;
 
-  const { id } = useParams<{ id: string }>();
-  var endpoint = apiEndpoint;
-  console.log("ID from params:", id);
+const allAnimals = gql`
+`;
+
+function Animaux({showNavbar = true}: AnimauxProps) {
+  const navigate = useNavigate();
+
+  const { id } = useParams<{ id: string }>() ?? "";
+  var body = allAnimals;
   if(id){
-    endpoint =`zoo/${storeZooId.getZooId()}/animal?space_id=${id}`;
+    body = animalFromSpace;
   }
-  useEffect(() => {
-        const fetchAnimals = async () => {
-          const response = await apiCall(endpoint)
-          const animalsApi = await response?.json()
-          if(animalsApi != null){
-            const animalsTransform = animalsApi as Animal[];
-            setAnimaux(animalsTransform)
-          }
-          setIsLoading(false)
-        };
-    
-        fetchAnimals();
-      }, []);
+
+  const {data,isLoading,isError} = useQuery({
+    queryKey: ["fetchAllAnimals"+id],
+    queryFn: async() => await fetchGraphQL(body, {}),
+  });
 
   function handleClick(animal : Animal){
     navigate(`/animal/${animal._id}`,{ state: { animal } })
@@ -44,6 +38,11 @@ function Animaux({showNavbar = true,apiEndpoint = `zoo/${storeZooId.getZooId()}/
   if (isLoading) {
     return <p>Loading zoos...</p>;
   }
+  else if(isError){
+    return <p>Error loading zoos.</p>;
+  }
+
+  const animaux: Animal[] = data?.getAllAnimals ?? [];
 
   return (
     <div

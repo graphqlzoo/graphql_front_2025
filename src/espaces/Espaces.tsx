@@ -1,34 +1,39 @@
-import { useEffect, useState } from "react";
 import "./Espaces.css"
 import { Habitat } from "../models/space";
 import Navbar from "../components/Navbar/Navbar";
-import { apiCall } from "../api/apiCall";
-import storeZooId from "../api/storeZooId";
-import { useNavigate } from "react-router-dom";
+import { fetchGraphQL } from "../api/apiCall";
 import EspaceCell from "./EspaceCell";
+import { gql } from "graphql-request";
+import { useQuery } from "@tanstack/react-query";
+
+const requestAllSpaces = gql`
+  query {
+    getAllSpaces{
+      id
+      disabled
+      name
+      description
+      openingHours
+      closingHours
+      types
+    }
+  }
+`;
 
 function Espaces(){
-  const navigate = useNavigate()
-  const [spaces,setSpaces] = useState<Habitat[]>([])
-  const [isLoading,setIsLoading] = useState<boolean>(true)
-
-  useEffect(() => {
-      const fetchSpaces = async () => {
-        const response = await apiCall(`zoo/${storeZooId.getZooId()}/space`)
-        const spacesApi = await response?.json()
-        if(spacesApi != null){
-          const spacesTransform = spacesApi as Habitat[];
-          setSpaces(spacesTransform)
-        }
-        setIsLoading(false)
-      };
-  
-      fetchSpaces();
-    }, []);
+  const {data,isLoading,isError} = useQuery({
+    queryKey: ["fetchAllSpaces"],
+    queryFn: async() => await fetchGraphQL(requestAllSpaces, {}),
+  });
 
   if (isLoading) {
     return <p>Loading zoos...</p>;
   }
+  else if(isError){
+    return <p>Error loading zoos.</p>;
+  }
+
+  const spaces: Habitat[] = data?.getAllSpaces ?? [];
 
   return (
     <div style={{ paddingTop: "70px" }}>
