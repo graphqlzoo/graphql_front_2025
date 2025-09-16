@@ -26,7 +26,7 @@ function RegisterForm(){
         toast.error("Please fill in both fields.");
       }
       else{
-        const response = await apiCall('auth/subscribe',"POST",{
+        const response = await apiCall({
           lastName,
           firstName,
           login,

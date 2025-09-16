@@ -26,7 +26,7 @@ function AnimalCell({ animal, onClick }: AnimalCellProps) {
       if (!animal.images.length) return;
 
       try {
-        const res = await apiCall(`asset/${animal.images[0]}`, 'GET', null);
+        const res = await apiCall(null);
         if (!res || !res.ok) throw new Error();
 
         const blob = await res.blob();

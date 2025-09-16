@@ -14,7 +14,7 @@ function Espaces(){
 
   useEffect(() => {
       const fetchSpaces = async () => {
-        const response = await apiCall(`zoo/${storeZooId.getZooId()}/space`,'GET',null)
+        const response = await apiCall(`zoo/${storeZooId.getZooId()}/space`)
         const spacesApi = await response?.json()
         if(spacesApi != null){
           const spacesTransform = spacesApi as Habitat[];

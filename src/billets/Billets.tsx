@@ -11,7 +11,7 @@ function Billets() {
 
   useEffect(() => {
     async function fetchBillets(){
-      const res = await apiCall(`ticket`, 'GET', null);
+      const res = await apiCall(null);
       if(res && res.ok){
         const data = await res.json();
         setBillets(data as Billet[]);
@@ -27,10 +27,10 @@ function Billets() {
       <div className="billets-container">
         {billets.map((billet) => (
           <div key={billet._id} className="billet-card">
-            <h3 className="billet-title">{billet.pass.name}</h3>
-            <p className="billet-info">💰 Prix : {billet.pass.price} €</p>
-            <p className="billet-info">📆 Date : {new Date(billet.date).toLocaleDateString()}</p>
-            <p className="billet-info">🔁 Durée : {billet.pass.periodicity}</p>
+            <h3 className="billet-title">{billet.nameOfBillet}</h3>
+            <p className="billet-info">💰 Prix : {billet.price} €</p>
+            <p className="billet-info">📆 Date : {new Date(billet.endOfValidityDate).toLocaleDateString()}</p>
+            <p className="billet-info">🔁 Durée : {billet.createdAt}</p>
           </div>
         ))}
         {billets.length === 0 && (

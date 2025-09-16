@@ -68,7 +68,7 @@ function ImageCarousel({ imagesId }: propsImages) {
       setLoading(true);
       try {
         const fetchPromises = imagesId.map(async (imageId) => {
-          const res = await apiCall(`asset/${imageId}`, "GET", null);
+          const res = await apiCall(null);
           if (!res || !res.ok) throw new Error(`Failed to fetch image ${imageId}`);
           const blob = await res.blob();
           return URL.createObjectURL(blob);
