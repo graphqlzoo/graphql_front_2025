@@ -9,21 +9,24 @@ import { useQuery } from "@tanstack/react-query";
 import { gql } from "graphql-request";
 
 
-const connectionRequest = gql `
-  query {
-      connection(input: { login: $login, password: $password }) {
-        token
-        error
-      }
-  }`
+const connectionRequest = gql`
+  query Connection($login: String!, $password: String!) {
+    connection(input: { login: $login, password: $password }) {
+      token
+      error
+    }
+  }
+`;
 
 function ConnectForm(){
   const navigate = useNavigate();
   const  [login, setLogin] = useState<string>('johndoe');
   const  [password, setPassword] = useState<string>('password123');
-  const call = () => useQuery({ //replace with refetch event probably
-    queryKey: ["fetchFilms"],
-    queryFn: () => fetchGraphQL(connectionRequest, { login: login, password: password }),
+  const {refetch} = useQuery({ //replace with refetch event probably
+    queryKey: ["fetchConnection", login, password],
+    queryFn: async() => await fetchGraphQL(connectionRequest, { login: login, password: password }),
+    refetchOnWindowFocus: false,
+    enabled: false
   });
   
 
@@ -39,8 +42,8 @@ function ConnectForm(){
       toast.error("Please fill in both fields.");
     }
     else{
-      const {data,isLoading,isError} = call();
-      console.log(data);
+      const {data} = await refetch();
+      console.log("Data:", data.connection.token); // logs your connection object
       if (data.connection.token !== null) {
         TokenStore.setToken(data.connection.token);
         navigate("/animaux");

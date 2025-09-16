@@ -1,5 +1,5 @@
 import TokenStore from './tokenStore';
-import { request, gql } from "graphql-request";
+import { request } from "graphql-request";
 
 export async function apiCall(body : any):Promise<Response | null> {
    const options: RequestInit = {
@@ -27,6 +27,6 @@ export async function fetchGraphQL<T = any>(
   query: string,
   variables?: Record<string, any>
 ): Promise<T> {
-  const endpoint = "http://localhost:4000/graphql"; // or your endpoint
-  return request<T>(endpoint, query, variables);
+  const endpoint = "http://localhost:4000/graphql";
+  return await request<T>(endpoint, query, variables);
 }

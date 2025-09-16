@@ -11,26 +11,31 @@ import Animaux from './animaux/Animaux';
 import AnimalDetail from './animalDetail/animalDetail';
 import Buy from './buy/Buy';
 import Billets from './billets/Billets';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/register" element={<RegisterForm/>}/>
-        <Route path="/espaces" element={<ZooExplore/>}/>
-        <Route path="/espaces/:id" element={<Animaux/>}/>
-        <Route path="/passes" element={<Passes/>}/>
-        <Route path="/buy/:id" element={<Buy/>}/>
-        <Route path="/billets" element={<Billets/>}/>
-        <Route path="/animaux" element={<Animaux/>}/>
-        <Route path="/animal/:id" element={<AnimalDetail/>}/>
-        <Route path='*' element={<Navigate to='/espaces'/>}/>
-      </Routes>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/register" element={<RegisterForm/>}/>
+          <Route path="/espaces" element={<ZooExplore/>}/>
+          <Route path="/espaces/:id" element={<Animaux/>}/>
+          <Route path="/passes" element={<Passes/>}/>
+          <Route path="/buy/:id" element={<Buy/>}/>
+          <Route path="/billets" element={<Billets/>}/>
+          <Route path="/animaux" element={<Animaux/>}/>
+          <Route path="/animal/:id" element={<AnimalDetail/>}/>
+          <Route path='*' element={<Navigate to='/espaces'/>}/>
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 
