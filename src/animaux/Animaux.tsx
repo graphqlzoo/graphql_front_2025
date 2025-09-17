@@ -12,9 +12,27 @@ interface AnimauxProps {
 }
 
 const animalFromSpace = gql`
+  query GetAnimalsBySpaceId($id: String!) {
+    getAnimalsBySpaceId(input: { id: $id }) {
+      id
+      name
+      bornOn
+      description
+      images
+    }
+  }
 `;
 
 const allAnimals = gql`
+  query GetAllAnimals {
+    getAllAnimals {
+      id
+      name
+      bornOn
+      description
+      images
+    }
+  }
 `;
 
 function Animaux({showNavbar = true}: AnimauxProps) {
@@ -28,21 +46,27 @@ function Animaux({showNavbar = true}: AnimauxProps) {
 
   const {data,isLoading,isError} = useQuery({
     queryKey: ["fetchAllAnimals"+id],
-    queryFn: async() => await fetchGraphQL(body, {}),
+    queryFn: async() => await fetchGraphQL(body, {id}),
   });
 
   function handleClick(animal : Animal){
-    navigate(`/animal/${animal._id}`,{ state: { animal } })
+    navigate(`/animal/${animal.id}`)
   }
       
   if (isLoading) {
-    return <p>Loading zoos...</p>;
+    return <p>Loading animals...</p>;
   }
   else if(isError){
-    return <p>Error loading zoos.</p>;
+    return <p>Error loading animals.</p>;
   }
 
-  const animaux: Animal[] = data?.getAllAnimals ?? [];
+  var animaux : Animal[] = [];
+  if(id){
+    animaux = data?.getAnimalsBySpaceId ?? [];
+  }
+  else{
+    animaux = data?.getAllAnimals ?? [];
+  }
 
   return (
     <div
@@ -59,7 +83,7 @@ function Animaux({showNavbar = true}: AnimauxProps) {
         <p className="text-gray-500 text-center mt-4">No animal available.</p>
       ) : (
         animaux.map((animal) => (
-          <AnimalCell key={animal._id} animal={animal} onClick={() => handleClick(animal)} />
+          <AnimalCell key={animal.id} animal={animal} onClick={() => handleClick(animal)} />
         ))
       )}
     </div>

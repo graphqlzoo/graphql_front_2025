@@ -9,7 +9,7 @@ type EspaceCellProps = {
 function EspaceCell({ habitat }: EspaceCellProps) {
    const handleClick = () => {
     if (!habitat.disabled) {
-      navigate('/espaces/' + habitat._id);
+      navigate('/espaces/' + habitat.id);
     }
   };
   const navigate = useNavigate();

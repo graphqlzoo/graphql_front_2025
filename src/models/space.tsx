@@ -1,5 +1,5 @@
 export interface Habitat {
-  _id: string;
+  id: string;
   name: string;
   description: string;
   images: string[];

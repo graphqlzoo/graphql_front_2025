@@ -1,23 +1,58 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Animal } from "../models/animal";
 import AnimalCell from "../animaux/AnimalCell";
 import { Species } from "../models/species";
 import { useEffect, useState } from "react";
-import { apiCall } from "../api/apiCall";
+import { fetchGraphQL } from "../api/apiCall";
 import './AnimalDetail.css'; // ← create this CSS file
+import { useQuery } from "@tanstack/react-query";
+import { gql } from "graphql-request";
+import { Habitat } from "../models/space";
 
 type propsSpecies = {
   species: Species;
+  spaces : Habitat;
 };
 
 type propsImages = {
-  imagesId: string[];
+  imagesUrlApi: string[];
 };
 
+const getDetailAnimal = gql`
+  query GetAnimalById($id: String!) {
+    getAnimalById(input: { id: $id }) {
+      id
+      name
+      bornOn
+      description
+      images
+      species{
+        name
+        description
+      }
+      space{
+        types
+      }   
+    }
+  }
+`;
+
 function AnimalDetail() {
-  const location = useLocation();
   const { id } = useParams<{ id: string }>();
-  const animal = location.state?.animal as Animal | undefined;
+
+  const {data,isLoading,isError} = useQuery({
+    queryKey: ["fetchAnimal"+id],
+    queryFn: async() => await fetchGraphQL(getDetailAnimal, {id}),
+  });
+
+  if(isLoading){
+    return <p>Loading animal details...</p>;
+  }
+  else if(isError){
+    return <p>Error loading animal details.</p>;
+  }
+
+  const animal : Animal = data?.getAnimalById as Animal;
 
   return (
     <div className="animal-detail-container">
@@ -26,12 +61,12 @@ function AnimalDetail() {
       <div className="animal-detail-content">
         {animal && (
           <>
-            <AnimalCell key={animal._id} animal={animal} onClick={() => {}} />
-            <SpeciesDetail species={animal.species} />
+            <AnimalCell key={animal.id} animal={animal} onClick={() => {}} />
+            <SpeciesDetail species={animal.species} spaces={animal.space} />
             {animal.images && animal.images.length > 0 && (
               <>
                 <h3 className="carousel-title">📸 Galerie</h3>
-                <ImageCarousel imagesId={animal.images} />
+                <ImageCarousel imagesUrlApi={animal.images} />
               </>
             )}
           </>
@@ -43,7 +78,7 @@ function AnimalDetail() {
 
 export default AnimalDetail;
 
-function SpeciesDetail({ species }: propsSpecies) {
+function SpeciesDetail({ species,spaces }: propsSpecies) {
   return (
     <div className="species-card">
       <h2 className="species-name">{species.name}</h2>
@@ -52,43 +87,45 @@ function SpeciesDetail({ species }: propsSpecies) {
         🛡️ Statut de conservation : <strong>"En danger"</strong>
       </p>
       <p className="species-habitat">
-        🌍 Habitat naturel : <em>Forêt tropicale</em>
+        🌍 Habitat naturel : <em>{spaces.types[0]}</em>
       </p>
     </div>
   );
 }
 
-function ImageCarousel({ imagesId }: propsImages) {
+function ImageCarousel({ imagesUrlApi }: propsImages) {
   const [loading, setLoading] = useState(true);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
     async function fetchImages() {
       setLoading(true);
       try {
-        const fetchPromises = imagesId.map(async (imageId) => {
-          const res = await apiCall(null);
-          if (!res || !res.ok) throw new Error(`Failed to fetch image ${imageId}`);
+        const fetchPromises = imagesUrlApi.map(async (imageUrl) => {
+          const res = await fetch(imageUrl);
+          if (!res || !res.ok) throw new Error(`Failed to fetch image ${imageUrl}`);
           const blob = await res.blob();
           return URL.createObjectURL(blob);
         });
 
         const urls = await Promise.all(fetchPromises);
-        setImageUrls(urls);
+        if (isMounted) setImageUrls(urls);
       } catch (error) {
         console.error("Image fetch failed:", error);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     }
 
     fetchImages();
     return () => {
+      isMounted = false;
       imageUrls.forEach((url) => URL.revokeObjectURL(url));
       setImageUrls([]);
     };
-  }, [imagesId]);
+  }, []);
 
   useEffect(() => {
     const closeOnEscape = (e: KeyboardEvent) => {
@@ -101,7 +138,7 @@ function ImageCarousel({ imagesId }: propsImages) {
   }, [selectedImage]);
 
   if (loading) return <p>Chargement des images...</p>;
-  if (imagesId.length === 0) return <p>Aucune image trouvée.</p>;
+  if (imageUrls.length === 0) return <p>Aucune image trouvée.</p>;
 
   return (
     <>

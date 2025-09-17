@@ -42,7 +42,7 @@ function Espaces(){
         <p className="text-gray-500 text-center mt-4">No spaces available.</p>
       ) : (
         spaces.map((habitat) => (
-          <EspaceCell key={habitat._id} habitat={habitat}/>
+          <EspaceCell key={habitat.id} habitat={habitat}/>
         ))
       )}
     </div>
