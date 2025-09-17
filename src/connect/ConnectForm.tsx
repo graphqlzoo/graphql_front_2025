@@ -46,7 +46,7 @@ function ConnectForm(){
       console.log("Data:", data.connection.token); // logs your connection object
       if (data.connection.token !== null) {
         TokenStore.setToken(data.connection.token);
-        navigate("/animaux");
+        navigate("/espaces");
       } else {
         toast.error("Failed to connect,try again");
       } 
