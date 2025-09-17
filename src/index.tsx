@@ -6,7 +6,6 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import RegisterForm from './register/RegisterForm';
 import ZooExplore from './espaces/Espaces';
-import Passes from './passes/Passes';
 import Animaux from './animaux/Animaux';
 import AnimalDetail from './animalDetail/animalDetail';
 import Buy from './buy/Buy';
@@ -27,7 +26,6 @@ root.render(
           <Route path="/register" element={<RegisterForm/>}/>
           <Route path="/espaces" element={<ZooExplore/>}/>
           <Route path="/espaces/:id" element={<Animaux/>}/>
-          <Route path="/passes" element={<Passes/>}/>
           <Route path="/buy/:id" element={<Buy/>}/>
           <Route path="/billets" element={<Billets/>}/>
           <Route path="/animaux" element={<Animaux/>}/>

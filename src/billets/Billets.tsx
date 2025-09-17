@@ -26,8 +26,8 @@ function Billets() {
       <Navbar />
       <div className="billets-container">
         {billets.map((billet) => (
-          <div key={billet._id} className="billet-card">
-            <h3 className="billet-title">{billet.nameOfBillet}</h3>
+          <div key={billet.id} className="billet-card">
+            <h3 className="billet-title">{billet.lastNameOfBeneficiary}</h3>
             <p className="billet-info">💰 Prix : {billet.price} €</p>
             <p className="billet-info">📆 Date : {new Date(billet.endOfValidityDate).toLocaleDateString()}</p>
             <p className="billet-info">🔁 Durée : {billet.createdAt}</p>

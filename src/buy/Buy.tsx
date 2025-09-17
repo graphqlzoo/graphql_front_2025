@@ -27,7 +27,7 @@ function Buy() {
   return (
     <div className="buy-container">
       <div className="pass-card">
-        <h2 className="pass-title">{pass.nameOfBillet}</h2>
+        <h2 className="pass-title">{pass.firstNameOfBeneficiary} {pass.lastNameOfBeneficiary}</h2>
         <p className="pass-price">💸 Prix : <strong>{pass.price} €</strong></p>
         <p className="pass-period">📅 Valid until : <em>{pass.endOfValidityDate}</em></p>
         <button className="buy-button" onClick={()=>postBillet()}>Acheter</button>
