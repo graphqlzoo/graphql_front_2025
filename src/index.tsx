@@ -26,7 +26,7 @@ root.render(
           <Route path="/register" element={<RegisterForm/>}/>
           <Route path="/espaces" element={<ZooExplore/>}/>
           <Route path="/espaces/:id" element={<Animaux/>}/>
-          <Route path="/buy/:id" element={<Buy/>}/>
+          <Route path="/buy" element={<Buy/>}/>
           <Route path="/billets" element={<Billets/>}/>
           <Route path="/animaux" element={<Animaux/>}/>
           <Route path="/animal/:id" element={<AnimalDetail/>}/>

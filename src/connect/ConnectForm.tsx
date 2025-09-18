@@ -42,7 +42,8 @@ function ConnectForm(){
       toast.error("Please fill in both fields.");
     }
     else{
-      const {data} = await refetch();
+      const {data,isError} = await refetch();
+      console.log("Error:", isError); // logs if there was an error during the request
       console.log("Data:", data.connection.token); // logs your connection object
       if (data.connection.token !== null) {
         TokenStore.setToken(data.connection.token);

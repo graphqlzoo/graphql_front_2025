@@ -33,3 +33,23 @@
   color: #4a6a36;
   margin: 4px 0;
 }
+
+
+.buy-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #28a745; /* green */
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 50px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease;
+}
+
+.buy-button:hover {
+  background-color: #218838; /* darker green on hover */
+}

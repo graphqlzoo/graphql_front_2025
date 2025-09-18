@@ -4,9 +4,10 @@ import generateToastContainer from '../utils/ToastContainer';
 import './Billets.css';
 import { apiCall } from '../api/apiCall';
 import { Billet } from '../models/billet';
+import { useNavigate } from 'react-router-dom';
 
 function Billets() {
-
+  const navigate = useNavigate();
   const [billets, setBillets] = useState<Billet[]>([]);
 
   useEffect(() => {
@@ -37,6 +38,9 @@ function Billets() {
           <p style={{ textAlign: 'center', marginTop: '20px' }}>Aucun billet trouvé.</p>
         )}
       </div>
+      <button className="buy-button" onClick={() => navigate('/buy')}>
+        Buy a ticket
+      </button>
       {generateToastContainer()}
     </div>
   );
