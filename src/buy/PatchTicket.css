@@ -1,0 +1,15 @@
+.form-group {
+  margin-bottom: 15px; /* space between this field and next field */
+  display: flex;
+  flex-direction: column; /* label on top, select below */
+}
+
+.form-group label {
+  margin-bottom: 5px; /* space between label and select */
+  font-weight: 500;
+}
+
+.ticket-select {
+  padding: 8px;
+  font-size: 14px;
+}

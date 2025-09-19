@@ -11,6 +11,7 @@ import AnimalDetail from './animalDetail/animalDetail';
 import Buy from './buy/Buy';
 import Billets from './billets/Billets';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import PatchTicket from './buy/PatchTicket';
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ root.render(
           <Route path="/espaces/:id" element={<Animaux/>}/>
           <Route path="/buy" element={<Buy/>}/>
           <Route path="/billets" element={<Billets/>}/>
+          <Route path="/billets/patch/:id" element={<PatchTicket/>}/>
           <Route path="/animaux" element={<Animaux/>}/>
           <Route path="/animal/:id" element={<AnimalDetail/>}/>
           <Route path='*' element={<Navigate to='/espaces'/>}/>
