@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
-import './Buy.css';
+import { useNavigate, useParams } from "react-router-dom";
+import './PatchTicket.css';
 import generateToastContainer from "../utils/ToastContainer";
 import { Billet } from "../models/billet";
 import { useEffect, useState } from "react";
@@ -8,10 +8,23 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchGraphQL } from "../api/apiCall";
 import { gql } from "graphql-request";
 
+const getBillet = gql`
+  query getBilletById($input: InputIdType!) {
+    getBilletById(input: $input){
+      id
+      endOfValidityDate
+      price
+      lastNameOfBeneficiary
+      firstNameOfBeneficiary
+      type
+    }
+  }
+`;
 
-const createBilletRequest = gql`
-  mutation CreateBillet($input: CreateBilletInput!) {
-    createBillet(input: $input) {
+
+const patchBilletRequest = gql`
+  mutation patchBillet($input: CreateBilletInput!) {
+    patchBillet(input: $input) {
       id
       firstNameOfBeneficiary
       lastNameOfBeneficiary
@@ -22,35 +35,41 @@ const createBilletRequest = gql`
   }
 `;
 
-function Buy() {
+function PatchTicket() {
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+  const  {data, isLoading, isError} = useQuery({
+    queryKey: ['billet', id],
+    queryFn: async()=>fetchGraphQL(getBillet,{ input: { id : id } }),
+    enabled: !!id
+  })
 
-  const getNextMonthDate = (): Date => {
-    const date = new Date();
-    date.setMonth(date.getMonth() + 1); // adds 1 month
-    return date;
-  };
-
-  const formatDate = (date: Date): string => {
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // month is 0-indexed
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
-
-  const [firstNameOfBeneficiary, setFirstNameOfBeneficiary] = useState<string>('')
-  const [lastNameOfBeneficiary, setLastNameOfBeneficiary] = useState<string>('')
-  const [type,setType] = useState<string>('')
-  const [validityDate, setValidityDate] = useState<Date>(getNextMonthDate());
+  const [firstNameOfBeneficiary, setFirstNameOfBeneficiary] = useState<string>('');
+  const [lastNameOfBeneficiary, setLastNameOfBeneficiary] = useState<string>('');
+  const [type, setType] = useState<string>('');
+  const [validityDate, setValidityDate] = useState<string>('');
   const [price, setPrice] = useState<number | null>(null);
+  const [initialPrice,setInitialPrice] = useState<number | null>(null);
+
+  useEffect(() => {
+  if (data?.getBilletById) {
+    const billet = data.getBilletById as Billet;
+    setFirstNameOfBeneficiary(billet.firstNameOfBeneficiary);
+    setLastNameOfBeneficiary(billet.lastNameOfBeneficiary);
+    setType(billet.type);
+    setValidityDate(new Date(Number(billet.endOfValidityDate)).toLocaleDateString("fr-FR"));
+    setPrice(billet.price);
+    setInitialPrice(billet.price);
+  }
+}, [data]);
 
   const buildBilletInput = () => {
     return {
+      id,
       firstNameOfBeneficiary,
       lastNameOfBeneficiary,
       type,
       price,
-      endOfValidityDate: validityDate.toISOString().split('T')[0] // "YYYY-MM-DD"
     };
   };
   
@@ -68,13 +87,13 @@ function Buy() {
     }
     try{
       const input = buildBilletInput(); 
-      const response = await fetchGraphQL(createBilletRequest, { input });
-      toast.success(`Ticket for ${response.createBillet.lastNameOfBeneficiary} created!`);
+      const response = await fetchGraphQL(patchBilletRequest, { input });
+      toast.success(`Ticket for ${response.patchBillet.lastNameOfBeneficiary} updated!`);
       navigate("/billets");
     }
     catch(error){
-      toast.error("Error creating ticket");
-      console.error("Error creating billet:", error);
+      toast.error("Error updating ticket");
+      console.error("Error updating billet:", error);
     }
   }
 
@@ -94,6 +113,13 @@ function Buy() {
         break;
     }
   }, [type]);
+
+  if(isLoading){
+    return <div>Loading...</div>
+  }
+  else if(isError){
+    return <div>Error...</div>
+  }
 
   return (
     <div>
@@ -126,14 +152,15 @@ function Buy() {
           </select>
         </div>
         <div>
-          <p>Valid until the {formatDate(validityDate)}</p>
-          <p>Price : {price ?? "No price set for now"} €</p>
+          <p>Valid until the {validityDate} cant be changed !</p>
+          <p>Price: {price ?? "No price set for now"} €, you will only pay the diff -{" "}
+          {Math.max((price ?? 0) - (initialPrice ?? 0), 0)} €</p>
         </div>
-        <input type="submit" value="Buy ticket"/>
+        <input type="submit" value="Change ticket"/>
       </form>
       {generateToastContainer()}
     </div>    
   )
 }
 
-export default Buy;
+export default PatchTicket;

@@ -28,5 +28,8 @@ export async function fetchGraphQL<T = any>(
   variables?: Record<string, any>
 ): Promise<T> {
   const endpoint = "http://localhost:4000/graphql";
-  return await request<T>(endpoint, query, variables);
+  const headers = {
+    'authorization': `Bearer ${TokenStore.getToken()}`,
+  };
+  return await request<T>(endpoint, query, variables,headers);
 }
