@@ -1,0 +1,42 @@
+.spectacle-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.spectacle-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.spectacle-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.spectacle-card {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.spectacle-card:hover {
+  transform: scale(1.02);
+  background-color: #f9f9f9;
+}
+
+.spectacle-card h3 {
+  margin: 0 0 10px;
+  color: #34495e;
+}
+
+.spectacle-card p {
+  margin: 5px 0;
+  color: #555;
+}
