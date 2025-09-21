@@ -1,11 +1,11 @@
 import TokenStore from './tokenStore';
 import { request } from "graphql-request";
 
-export async function apiCall(body : any):Promise<Response | null> {
+export async function apiCall(body : { query: string; variables?: Record<string, any> }) {
    const options: RequestInit = {
     method: "POST",
     headers: {
-      'Content-Type': 'application/graphql',
+      'Content-Type': 'application/json',
       'authorization': `Bearer ${TokenStore.getToken()}`,
     },
   };
