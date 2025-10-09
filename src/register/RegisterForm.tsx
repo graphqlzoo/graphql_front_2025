@@ -38,11 +38,21 @@ function RegisterForm() {
       }),
   });
 
+    const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!login || !password || !email || !firstName || !lastName) {
       toast.error('Please fill in all fields.');
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      toast.error('Please enter a valid email address.');
       return;
     }
 
