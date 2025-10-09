@@ -82,9 +82,12 @@ function Billets() {
             <p className="billet-info">💰 Prix : {billet.price} €</p>
             <p className="billet-info">📆 Valid until : {new Date(Number(billet.endOfValidityDate)).toLocaleDateString("fr-FR")}</p>
             <button
-              className="delete-button"
-              onClick={() => deleteBillet(billet.id)}
-            >Get a refund </button>
+  className="delete-button"
+  onClick={(e) => {
+    e.stopPropagation();
+    deleteBillet(billet.id);
+  }}
+>Get a refund </button>
           </div>
         ))}
         {billets.length === 0 && (
